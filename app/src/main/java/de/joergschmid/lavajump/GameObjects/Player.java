@@ -1,6 +1,9 @@
-package de.joergschmid.lavajump;
+package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
+
+import de.joergschmid.lavajump.GameSurface;
+import de.joergschmid.lavajump.Timer;
 
 public class Player extends GameObject {
 

@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.joergschmid.lavajump.GameObjects.Coin;
+import de.joergschmid.lavajump.GameObjects.Flag;
+import de.joergschmid.lavajump.GameObjects.Lava;
+import de.joergschmid.lavajump.GameObjects.Player;
+
 
 public class GameSurface extends View {
 

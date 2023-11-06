@@ -1,6 +1,8 @@
-package de.joergschmid.lavajump;
+package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
+
+import de.joergschmid.lavajump.GameSurface;
 
 public class Flag extends GameObject {
 

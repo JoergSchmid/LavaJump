@@ -1,4 +1,4 @@
-package de.joergschmid.lavajump;
+package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
 

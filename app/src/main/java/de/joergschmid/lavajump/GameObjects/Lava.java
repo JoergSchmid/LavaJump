@@ -1,8 +1,10 @@
-package de.joergschmid.lavajump;
+package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
+import de.joergschmid.lavajump.GameSurface;
 
 public class Lava extends GameObject {
 
