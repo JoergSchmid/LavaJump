@@ -4,10 +4,8 @@ import android.graphics.Bitmap;
 
 public class Coin extends GameObject{
 
-    private final String LOG_TAG = Coin.class.getSimpleName();
-
-    public Coin(Bitmap bitmap, int Left, int Bottom) {
-        super(bitmap, Left, Bottom);
+    public Coin(Bitmap bitmap, int left, int bottom) {
+        super(bitmap, left, bottom, bitmap.getWidth(), bitmap.getHeight());
     }
 
 }

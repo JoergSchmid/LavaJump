@@ -26,9 +26,6 @@ import de.joergschmid.lavajump.GameObjects.Player;
 
 
 public class GameSurface extends View {
-
-    private final String LOG_TAG = GameSurface.class.getSimpleName();
-
     private final int STATUS_GAME_STARTED = 1;
     private final int STATUS_GAME_PAUSED = 2;
     private final int STATUS_GAME_OVER = 3;
@@ -158,7 +155,7 @@ public class GameSurface extends View {
         generateCoins();
 
         skin = Utility.loadSelectedSkin(getContext());
-        player = new Player(this, Utility.getBitmap(getContext(), skin));
+        player = new Player(this, Utility.getBitmap(getContext(), skin), 0, GameSurface.getGround());
 
         lava.clear();
         generateLava();
@@ -257,27 +254,20 @@ public class GameSurface extends View {
             l.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
 
-        // Capture the flag
-        /*if(ranking < highScores.length && highScores[ranking] != 0 && status != STATUS_GAME_OVER && status != STATUS_GAME_PAUSED) {
-            flags.get(ranking).setPosition((player.getLeft()), player.getCenter().y);
-        }*/
-
         for(Flag f : flags) {
             f.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
 
         for(Coin c : coins) {
             // Check, if a coin got captured
-            if(c.getRect().contains(player.getCenter().x, player.getCenter().y)) {
+            if(c.getRect().contains(player.getGlobalCenterX(), player.getGlobalCenterY())) {
                 coinsCollected++;
-                c.move(-screenWidth, 0); // This deletes the coin
+                c.moveBy(-screenWidth, 0); // This deletes the coin
             }
             c.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
     }
 
-
-    // Generate the first set of lava
     private void generateLava() {
         lava.add(new Lava(lavaBitmap, randomIntBetween(200, 500), randomIntBetween(80, 150)));
         for(int i = 1; i < LAVA_NUMBER; i++) {
@@ -285,19 +275,16 @@ public class GameSurface extends View {
         }
     }
 
-    // Add 1 lava to the list
     private void addLava() {
         lava.add(new Lava(lavaBitmap,lava.get(lava.size()-1).getRight() + randomIntBetween(30, 300), randomIntBetween(80, 150)));
     }
 
-    // Generate the first set of coins
     private void generateCoins() {
         coins.add(new Coin(coinOneBitmap, randomIntBetween(500, 2000), ground - randomIntBetween(50, 450)));
         for (int i = 1; i < COIN_NUMBER; i++)
             addCoin();
     }
 
-    // Add 1 coin to the list
     private void addCoin() {
         coins.add(new Coin(coinOneBitmap, coins.get(coins.size()-1).getRight() + randomIntBetween(500, 2000), ground - randomIntBetween(50, 450)));
     }

@@ -8,20 +8,18 @@ import de.joergschmid.lavajump.GameSurface;
 
 public class Lava extends GameObject {
 
-    private final String LOG_TAG = Lava.class.getSimpleName();
-
-    public Lava(Bitmap bitmap, int Left, int size) {
-        super(bitmap, Left, GameSurface.getScreenHeight());
-        width = size;
-        right = left + size;
-        top = GameSurface.getGround();
-        calculateRect();
+    public Lava(Bitmap bitmap, int x, int width) {
+        super(bitmap, x, GameSurface.getScreenHeight(), width, GameSurface.getScreenHeight() - GameSurface.getGround());
     }
 
     @Override
     public void draw(Canvas canvas, int xOffset, int yOffset, double scalingFactor) {
         canvas.drawBitmap(image, null,
-                new Rect((int) (scalingFactor * (left - xOffset)), (int) (scalingFactor * top) + yOffset, (int) (scalingFactor * (right - xOffset)), bottom),
+                new Rect(
+                        (int) (scalingFactor * (getLeft() - xOffset)),
+                        (int) (scalingFactor * getTop()) + yOffset,
+                        (int) (scalingFactor * (getRight() - xOffset)),
+                        getBottom()),
                 null);
     }
 }

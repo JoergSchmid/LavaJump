@@ -2,64 +2,44 @@ package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 public abstract class GameObject {
 
-    private final String LOG_TAG = GameObject.class.getSimpleName();
-
     protected Bitmap image;
-    protected Point center = new Point();
     protected Rect rect = new Rect();
-    protected  int width;
+    protected int width;
     protected int height;
-    protected int left;
-    protected int top;
-    protected int right;
     protected int bottom;
+    protected int left;
 
-    public GameObject(Bitmap bitmap, int Left, int Bottom) {
+    public GameObject(Bitmap bitmap, int left, int bottom, int width, int height) {
         image = bitmap;
-        width = image.getWidth();
-        height = image.getHeight();
-        setBottomLeft(Left, Bottom);
+        this.bottom = bottom;
+        this.left = left;
+        this.width = width;
+        this.height = height;
+        updateRect();
     }
 
     public void draw(Canvas canvas, int xOffset, int yOffset, double scalingFactor) {
         canvas.drawBitmap(image, null,
-                new Rect((int) (scalingFactor * (left - xOffset)), (int) (scalingFactor * top) + yOffset, (int) (scalingFactor * (right - xOffset)), (int) (scalingFactor * bottom) + yOffset),
+                new Rect(
+                        (int) (scalingFactor * (getLeft() - xOffset)),
+                        (int) (scalingFactor * getTop()) + yOffset,
+                        (int) (scalingFactor * (getRight() - xOffset)),
+                        (int) (scalingFactor * getBottom()) + yOffset),
                 null);
     }
 
-    protected void calculateRect() {
-        rect.set(left, top, right, bottom);
-        center.set((left + right) / 2, (top + bottom) / 2);
+    protected void updateRect() {
+        rect.set(getLeft(), getTop(), getRight(), getBottom());
     }
 
-    public void move(int x, int y) {
+    public void moveBy(int x, int y) {
         left += x;
-        right += x;
-        top += y;
         bottom += y;
-        calculateRect();
-    }
-
-    public void setBottomLeft(int Left, int Bottom) {
-        setBottom(Bottom);
-        setLeft(Left);
-    }
-
-    public void setBottom(int Bottom) {
-        bottom = Bottom;
-        top = bottom - height;
-        calculateRect();
-    }
-
-    public void setLeft(int Left) {
-        left = Left;
-        right = left + width;
-        calculateRect();
+        updateRect();
     }
 
 
@@ -68,22 +48,26 @@ public abstract class GameObject {
     }
 
     public int getTop() {
-        return top;
+        return bottom - height;
     }
 
     public int getRight() {
-        return right;
+        return left + width;
     }
 
     public int getBottom() {
         return bottom;
     }
 
-    public Point getCenter() {
-        return center;
-    }
-
     public Rect getRect() {
         return rect;
+    }
+
+    public int getGlobalCenterX() {
+        return left + width / 2;
+    }
+
+    public int getGlobalCenterY() {
+        return bottom + height / 2;
     }
 }
