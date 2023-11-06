@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="default_margin">20dp</dimen>
+    <dimen name="default_font_size">18sp</dimen>
+    <dimen name="title_font_size">48sp</dimen>
+    <dimen name="highscore_subtitle_font_size">24sp</dimen>
+    <dimen name="highscore_font_size">20sp</dimen>
+    <dimen name="highscore_table_width">120dp</dimen>
+    <dimen name="button_bottom_margin">25dp</dimen>
+    <dimen name="button_side_margin">100dp</dimen>
+    <dimen name="button_width">120dp</dimen>
+    <dimen name="button_height">80dp</dimen>
+    <dimen name="player_selection_size">50dp</dimen>
+    <dimen name="player_selection_side_margin">40dp</dimen>
+    <dimen name="player_selection_margin_between">30dp</dimen>
+    <dimen name="coin_image_side_margin">10dp</dimen>
+
+    <dimen name="changelog_width">150dp</dimen>
+    <dimen name="version_font_size">18sp</dimen>
+    <dimen name="version_margin_side">20dp</dimen>
+    <dimen name="version_margin_bottom">10dp</dimen>
+
+    <dimen name="skin_selection_size">40dp</dimen>
+    <dimen name="skin_margin_side">30dp</dimen>
+    <dimen name="skin_margin_between"> 20dp</dimen>
+
+    <dimen name="buy_view_width">240dp</dimen>
+    <dimen name="buy_view_button_width">45dp</dimen>
+
+</resources>

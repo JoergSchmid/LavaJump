@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/highscoreLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:gravity="center"
+        android:text="@string/title_activity_highscore"
+        android:textSize="@dimen/title_font_size"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold"
+        android:shadowColor="#000000"
+        android:shadowRadius="10"
+        android:shadowDx="0"
+        android:shadowDy="0" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:id="@+id/highscoreTableLayout"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="9"
+            android:columnCount="3">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/highscore_table_width"
+                    android:text="@string/ranking_activity_highscore"
+                    android:textSize="@dimen/highscore_subtitle_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="@dimen/highscore_table_width"
+                    android:text="@string/score_activity_highscore"
+                    android:textSize="@dimen/highscore_subtitle_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="@string/player_activity_highscore"
+                    android:textSize="@dimen/highscore_subtitle_font_size"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="@string/hs_1st"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <TextView
+                    android:id="@+id/hs_first"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <ImageView
+                    android:id="@+id/hs_first_skin"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:maxWidth="@dimen/highscore_font_size"
+                    android:maxHeight="@dimen/highscore_font_size"
+                    android:scaleType="fitCenter" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="@string/hs_2nd"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <TextView
+                    android:id="@+id/hs_second"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <ImageView
+                    android:id="@+id/hs_second_skin"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:maxWidth="@dimen/highscore_font_size"
+                    android:maxHeight="@dimen/highscore_font_size"
+                    android:scaleType="fitCenter" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="@string/hs_3rd"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <TextView
+                    android:id="@+id/hs_third"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <ImageView
+                    android:id="@+id/hs_third_skin"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:maxWidth="@dimen/highscore_font_size"
+                    android:maxHeight="@dimen/highscore_font_size"
+                    android:scaleType="fitCenter" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="@string/hs_4th"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <TextView
+                    android:id="@+id/hs_fourth"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <ImageView
+                    android:id="@+id/hs_fourth_skin"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:maxWidth="@dimen/highscore_font_size"
+                    android:maxHeight="@dimen/highscore_font_size"
+                    android:scaleType="fitCenter" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="@string/hs_5th"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <TextView
+                    android:id="@+id/hs_fifth"
+                    android:textSize="@dimen/highscore_font_size" />
+
+                <ImageView
+                    android:id="@+id/hs_fifth_skin"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:maxWidth="@dimen/highscore_font_size"
+                    android:maxHeight="@dimen/highscore_font_size"
+                    android:scaleType="fitCenter" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/button_back_activity_highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/button_side_margin"
+        android:layout_marginBottom="@dimen/button_bottom_margin"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:maxWidth="@dimen/button_width"
+        android:maxHeight="@dimen/button_height"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_highscore" />
+
+</RelativeLayout>

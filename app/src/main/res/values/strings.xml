@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name" translatable="false">Lava Jump</string>
+
+    <string name="changelog">- Added this changelog\n- Added more german</string>
+
+    <string name="preferences_key" translatable="false">de.jerklabs.lavajump.preferences</string>
+    <string name="last_version_key" translatable="false">last_version</string>
+    <string name="coins_key" translatable="false">coins</string>
+    <string name="skin_key" translatable="false">skin</string>
+    <string name="hs_score_key" translatable="false">scores</string>
+    <string name="hs_skin_key" translatable="false">skins</string>
+    <string name="skin_selection_menu_key" translatable="false">skin_selection_</string>
+    <string name="skin_bought_key" translatable="false">skin_bought_</string>
+
+    <string name="title_activity_highscore">Highscore</string>
+    <string name="ranking_activity_highscore">Ranking</string>
+    <string name="score_activity_highscore">Score</string>
+    <string name="player_activity_highscore">Player</string>
+
+    <string name="hs_1st" translatable="false">1</string>
+    <string name="hs_2nd" translatable="false">2</string>
+    <string name="hs_3rd" translatable="false">3</string>
+    <string name="hs_4th" translatable="false">4</string>
+    <string name="hs_5th" translatable="false">5</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+
+    <string name="score">Score:&#160;</string>
+    <string name="coins">Coins:&#160;</string>
+
+    <string name="not_enough_coins">Not enough coins. You need&#160;</string>
+    <string name="buy_1">Buy&#160;</string>
+    <string name="buy_2">&#160;skin for&#160;</string>
+    <string name="buy_3">&#160;coins?</string>
+
+    <string name="red">red</string>
+    <string name="yellow">yellow</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
+    <string name="pink">pink</string>
+    <string name="orange">orange</string>
+    <string name="turquoise">turquoise</string>
+    <string name="purple">purple</string>
+</resources>

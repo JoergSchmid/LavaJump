@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_highscore">Highscore</string>
+    <string name="score_activity_highscore">Punkte</string>
+    <string name="player_activity_highscore">Spieler</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="ok">Ok</string>
+    <string name="ranking_activity_highscore">Platz</string>
+    <string name="not_enough_coins">Nicht genug Münzen. Du brauchst&#160;</string>
+    <string name="buy_2">&#160;Skin für&#160;</string>
+    <string name="red">Roten</string>
+    <string name="yellow">Gelben</string>
+    <string name="green">Grünen</string>
+    <string name="blue">Blauen</string>
+    <string name="pink">Pinken</string>
+    <string name="orange">Orangenen</string>
+    <string name="turquoise">Türkisen</string>
+    <string name="buy_1">" "</string>
+    <string name="buy_3">&#160;Münzen kaufen?</string>
+    <string name="purple">Violetten</string>
+    <string name="coins">Münzen:&#160;</string>
+    <string name="score">Punkte:&#160;</string>
+    <string name="changelog">- Changelog hinzugefügt\n- Mehr deutsch</string>
+</resources>

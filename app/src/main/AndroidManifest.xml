@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="de.joergschmid.lavajump">
+
+    <application
+
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/logo_launcher"
+        android:roundIcon="@mipmap/logo_launcher_rounded"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name="de.joergschmid.lavajump.MainActivity"
+            android:screenOrientation="sensorLandscape"
+            android:launchMode="singleInstance"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="de.joergschmid.lavajump.GameActivity"
+            android:screenOrientation="sensorLandscape"
+            android:parentActivityName="de.joergschmid.lavajump.MainActivity"
+            android:noHistory="true"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+
+        <activity
+            android:name="de.joergschmid.lavajump.HighscoreActivity"
+            android:screenOrientation="sensorLandscape"
+            android:parentActivityName="de.joergschmid.lavajump.MainActivity"
+            android:noHistory="true"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+
+        <activity
+            android:name="de.joergschmid.lavajump.SkinSelectionActivity"
+            android:screenOrientation="sensorLandscape"
+            android:parentActivityName="de.joergschmid.lavajump.MainActivity"
+            android:noHistory="true"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+
+    </application>
+
+</manifest>
