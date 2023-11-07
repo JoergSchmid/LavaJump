@@ -296,12 +296,8 @@ public class GameSurface extends View {
 
 
     private void checkRanking() {
-        if(ranking != 0 && player.getScore() > highScores[ranking-1]) {
-            if(ranking != highScores.length && highScores[ranking] != 0) { // Set last Flag to ground again
-                //flags.get(ranking).setPosition(highScores[ranking-1], ground); // Uncomment for changing flag color with better ranking - for cature the flag
-            }
+        if(ranking != 0 && player.getScore() > highScores[ranking-1])
             ranking--;
-        }
     }
 
 
