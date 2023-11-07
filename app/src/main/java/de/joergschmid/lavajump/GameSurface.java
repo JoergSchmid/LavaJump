@@ -26,11 +26,13 @@ import de.joergschmid.lavajump.GameObjects.Player;
 
 
 public class GameSurface extends View {
-    private final int STATUS_GAME_STARTED = 1;
-    private final int STATUS_GAME_PAUSED = 2;
-    private final int STATUS_GAME_OVER = 3;
-    private final int STATUS_GAME_DESTROYED = 4;
-    private int status = STATUS_GAME_DESTROYED;
+    private enum GameStatus {
+        RUNNING,
+        PAUSED,
+        FINISHED,
+        DESTROYED
+    }
+    private GameStatus status = GameStatus.DESTROYED;
 
     private Player player;
     public List<Lava> lava = new ArrayList<>();
@@ -93,7 +95,6 @@ public class GameSurface extends View {
 
         scalingFactor = screenHeight / (GROUND_HEIGHT + 1.6 * Player.MAX_HEIGHT);
         yOffset = (int) (ground - scalingFactor * ground);
-        Log.v(LOG_TAG, "scalingFactor=" + scalingFactor);
 
         definePaints();
         defineRects();
@@ -160,7 +161,7 @@ public class GameSurface extends View {
         lava.clear();
         generateLava();
 
-        status = STATUS_GAME_STARTED;
+        status = GameStatus.RUNNING;
     }
 
 
@@ -174,14 +175,19 @@ public class GameSurface extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if(status == STATUS_GAME_STARTED) {
-            drawGameStarted(canvas);
-        } else if(status == STATUS_GAME_PAUSED) {
-            drawGamePaused(canvas);
-        } else if(status == STATUS_GAME_OVER) {
-            drawGameOver(canvas);
-        } else if(status == STATUS_GAME_DESTROYED) {
-            backToMainActivity();
+        switch (status) {
+            case RUNNING:
+                drawGameStarted(canvas);
+                break;
+            case PAUSED:
+                drawGamePaused(canvas);
+                break;
+            case FINISHED:
+                drawGameOver(canvas);
+                break;
+            case DESTROYED:
+            default:
+                backToMainActivity();
         }
     }
 
@@ -198,7 +204,7 @@ public class GameSurface extends View {
         player.draw(canvas, screenOffset, yOffset, scalingFactor);
 
         if(!player.update()) {
-            status = STATUS_GAME_OVER;
+            status = GameStatus.FINISHED;
             finalScore = player.getScore();
 
             checkHighscore();
@@ -317,16 +323,16 @@ public class GameSurface extends View {
 
             // Un/Pause
             if(topRight.contains(x, y)) {
-                if(pausePressed && status == STATUS_GAME_STARTED)
+                if(pausePressed && status == GameStatus.RUNNING)
                     pause();
-                else if(pausePressed && status == STATUS_GAME_PAUSED)
+                else if(pausePressed && status == GameStatus.PAUSED)
                     resume();
-                else if(restartPressed && status == STATUS_GAME_OVER)
+                else if(restartPressed && status == GameStatus.FINISHED)
                     restart();
             }
 
             // Back to MainActivity
-            if(topLeft.contains(x, y) && backPressed && (status == STATUS_GAME_PAUSED || status == STATUS_GAME_OVER)) {
+            if(topLeft.contains(x, y) && backPressed && (status == GameStatus.PAUSED || status == GameStatus.FINISHED)) {
                 backToMainActivity();
                 return true;
             }
@@ -341,16 +347,16 @@ public class GameSurface extends View {
 
             // Un/Pause
             if(topRight.contains(x, y)) {
-                if(status == STATUS_GAME_STARTED)
+                if(status == GameStatus.RUNNING)
                     pausePressed = true;
-                else if(status == STATUS_GAME_PAUSED)
+                else if(status == GameStatus.PAUSED)
                     pausePressed = true;
-                else if(status == STATUS_GAME_OVER)
+                else if(status == GameStatus.FINISHED)
                     restartPressed = true;
                 return true;
             }
 
-            if(topLeft.contains(x, y) && (status == STATUS_GAME_PAUSED || status == STATUS_GAME_OVER)) {
+            if(topLeft.contains(x, y) && (status == GameStatus.PAUSED || status == GameStatus.FINISHED)) {
                 backPressed = true;
                 return true;
             }
@@ -410,12 +416,12 @@ public class GameSurface extends View {
     }
 
     public void pause() {
-        status = STATUS_GAME_PAUSED;
+        status = GameStatus.PAUSED;
         player.pausePlayTime();
     }
 
     public void resume() {
-        status = STATUS_GAME_STARTED;
+        status = GameStatus.RUNNING;
         player.resumePlayTime();
     }
 }
