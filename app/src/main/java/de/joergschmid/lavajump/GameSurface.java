@@ -12,7 +12,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -36,32 +35,30 @@ public class GameSurface extends View {
 
     private Player player;
     public List<Lava> lava = new ArrayList<>();
-    private List<Coin> coins = new ArrayList<>();
-    private List<Flag> flags = new ArrayList<>();
-    private final int LAVA_NUMBER = 20;
-    private final int COIN_NUMBER = 10;
+    private final List<Coin> coins = new ArrayList<>();
+    private final List<Flag> flags = new ArrayList<>();
     private int finalScore;
     private int[] highScores;
     private int ranking;
     private int coinsCollected;
     private String skin;
 
-    private Bitmap backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_game);
-    private Bitmap groundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ground);
-    private Bitmap lavaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lava);
-    private Bitmap pauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
-    private Bitmap pausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_pressed);
-    private Bitmap unpauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause);
-    private Bitmap unpausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause_pressed);
-    private Bitmap restartBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
-    private Bitmap restartPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart_pressed);
-    private Bitmap backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back);
-    private Bitmap backPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back_pressed);
-    private Bitmap flagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
-    private Bitmap flagFirstBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_first);
-    private Bitmap flagSecondBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_second);
-    private Bitmap flagThirdBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_third);
-    private Bitmap coinOneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.coin_one);
+    private final Bitmap backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_game);
+    private final Bitmap groundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ground);
+    private final Bitmap lavaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lava);
+    private final Bitmap pauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+    private final Bitmap pausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_pressed);
+    private final Bitmap unpauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause);
+    private final Bitmap unpausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause_pressed);
+    private final Bitmap restartBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
+    private final Bitmap restartPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart_pressed);
+    private final Bitmap backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back);
+    private final Bitmap backPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back_pressed);
+    private final Bitmap flagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
+    private final Bitmap flagFirstBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_first);
+    private final Bitmap flagSecondBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_second);
+    private final Bitmap flagThirdBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_third);
+    private final Bitmap coinOneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.coin_one);
 
     private boolean pausePressed = false;
     private boolean restartPressed = false;
@@ -71,8 +68,8 @@ public class GameSurface extends View {
     private Rect topLeft = new Rect();
     private Rect topRight = new Rect();
 
-    private Paint scorePaint = new Paint();
-    private Paint go_scorePaint = new Paint();
+    private final Paint scorePaint = new Paint();
+    private final Paint go_scorePaint = new Paint();
 
     private static int screenOffset; // Stores how much the screen has to be adjusted so the Player doesn´t go offScreen
     private static int ground;
@@ -80,7 +77,7 @@ public class GameSurface extends View {
     private static int screenWidth;
     private static int screenHeight;
 
-    private double scalingFactor; // Scaling value for the display, used for different display sizes and different player jump heights
+    private final double scalingFactor; // Scaling value for the display, used for different display sizes and different player jump heights
     private static int yOffset; // Stores how much objects need to be shifted down due to the scaling of the screen
 
 
@@ -276,6 +273,7 @@ public class GameSurface extends View {
 
     private void generateLava() {
         lava.add(new Lava(lavaBitmap, randomIntBetween(200, 500), randomIntBetween(80, 150)));
+        int LAVA_NUMBER = 20;
         for(int i = 1; i < LAVA_NUMBER; i++) {
             addLava();
         }
@@ -287,6 +285,7 @@ public class GameSurface extends View {
 
     private void generateCoins() {
         coins.add(new Coin(coinOneBitmap, randomIntBetween(500, 2000), ground - randomIntBetween(50, 450)));
+        int COIN_NUMBER = 10;
         for (int i = 1; i < COIN_NUMBER; i++)
             addCoin();
     }
