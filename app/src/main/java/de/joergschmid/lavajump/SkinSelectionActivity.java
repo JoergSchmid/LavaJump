@@ -118,14 +118,14 @@ public class SkinSelectionActivity extends AppCompatActivity {
     private void registerSkinButtonListeners() {
 
         skins.clear();
-        skins.add(new Skin("red", Utility.getBitmap(context, "red")));
-        skins.add(new Skin("yellow", Utility.getBitmap(context, "yellow")));
-        skins.add(new Skin("green", Utility.getBitmap(context, "green")));
-        skins.add(new Skin("blue", Utility.getBitmap(context, "blue")));
-        skins.add(new Skin("pink", Utility.getBitmap(context, "pink")));
-        skins.add(new Skin("orange", Utility.getBitmap(context, "orange")));
-        skins.add(new Skin("turquoise", Utility.getBitmap(context, "turquoise")));
-        skins.add(new Skin("purple", Utility.getBitmap(context, "purple")));
+        skins.add(new Skin("red"));
+        skins.add(new Skin("yellow"));
+        skins.add(new Skin("green"));
+        skins.add(new Skin("blue"));
+        skins.add(new Skin("pink"));
+        skins.add(new Skin("orange"));
+        skins.add(new Skin("turquoise"));
+        skins.add(new Skin("purple"));
 
         skinButtons = new ImageButton[8];
         skinButtons[0] = findViewById(R.id.button_skin_red);
