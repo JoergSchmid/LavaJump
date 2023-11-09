@@ -2,7 +2,6 @@ package de.joergschmid.lavajump;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -30,9 +29,8 @@ public class SkinSelectionActivity extends AppCompatActivity {
 
     private TableLayout layout_buySkin;
     private SelectedSkinView selectedSkinView;
-    private RelativeLayout.LayoutParams layoutParams;
 
-    private List<Skin> skins = new ArrayList<>();
+    private final List<Skin> skins = new ArrayList<>();
     private ImageButton[] skinButtons;
 
     private TextView tv_coins;
@@ -50,7 +48,7 @@ public class SkinSelectionActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_skin_selection);
 
-        layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         addContentView(selectedSkinView, layoutParams);
 
         registerImageSelections();
@@ -194,50 +192,34 @@ public class SkinSelectionActivity extends AppCompatActivity {
         Button b_yes = findViewById(R.id.button_buy_skin_yes);
         Button b_no = findViewById(R.id.button_buy_skin_no);
 
-        if(getCost(skin) > Utility.loadCoins(context)) {
-            tv_buySkin.setText(getString(R.string.not_enough_coins) + getCost(skin));
+        if(getCost() > Utility.loadCoins(context)) {
+            tv_buySkin.setText(getString(R.string.not_enough_coins) + getCost());
             b_yes.setText(R.string.ok);
             b_no.setVisibility(View.INVISIBLE);
         } else {
-            tv_buySkin.setText(getString(R.string.buy_1) + Skin.getLocalisedName(context, skin) + getString(R.string.buy_2) + getCost(skin) + getString(R.string.buy_3));
+            tv_buySkin.setText(getString(R.string.buy_1) + Skin.getLocalisedName(context, skin) + getString(R.string.buy_2) + getCost() + getString(R.string.buy_3));
             b_yes.setText(R.string.yes);
             b_no.setVisibility(View.VISIBLE);
         }
 
         layout_buySkin.setVisibility(View.VISIBLE);
 
-        b_yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Utility.loadCoins(context) >= getCost(SKIN)) {
-                    Utility.saveSkinPurchase(context, SKIN);
-                    Utility.removeCoins(context, getCost(SKIN));
-                    tv_coins.setText(String.valueOf(Utility.loadCoins(context)));
-                    layout_buySkin.setVisibility(View.INVISIBLE);
-                } else {
-                    layout_buySkin.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        b_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        b_yes.setOnClickListener(v -> {
+            if(Utility.loadCoins(context) >= getCost()) {
+                Utility.saveSkinPurchase(context, SKIN);
+                Utility.removeCoins(context, getCost());
+                tv_coins.setText(String.valueOf(Utility.loadCoins(context)));
+                layout_buySkin.setVisibility(View.INVISIBLE);
+            } else {
                 layout_buySkin.setVisibility(View.INVISIBLE);
             }
         });
+
+        b_no.setOnClickListener(v -> layout_buySkin.setVisibility(View.INVISIBLE));
         return false;
     }
 
-    private int getCost(String skin) {
-        /*switch(skin) {
-            case "pink":
-                return 50;
-            case "orange":
-                return 50;
-            default:
-                return 100;
-        }*/
+    private int getCost() {
         return 50;
     }
 }
