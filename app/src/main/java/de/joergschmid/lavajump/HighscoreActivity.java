@@ -83,11 +83,11 @@ public class HighscoreActivity extends AppCompatActivity {
 
         backButton.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_UP) {
-                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_highscore, null));
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_btn, null));
                 Intent intent = new Intent(HighscoreActivity.this, MainActivity.class);
                 startActivity(intent);
             } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_highscore_pressed, null));
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_btn_pressed, null));
             }
             return true;
 

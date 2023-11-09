@@ -87,7 +87,7 @@
         android:maxWidth="@dimen/button_width"
         android:maxHeight="@dimen/button_height"
         android:scaleType="fitCenter"
-        android:src="@drawable/back_highscore" />
+        android:src="@drawable/back_btn" />
 
     <ImageView
         android:id="@+id/skin_selected_0"

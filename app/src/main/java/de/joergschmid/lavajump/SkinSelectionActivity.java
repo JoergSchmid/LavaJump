@@ -101,11 +101,11 @@ public class SkinSelectionActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_highscore));
+                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
                     Intent intent = new Intent(SkinSelectionActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_highscore_pressed));
+                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_btn_pressed));
                 }
                 return true;
 
