@@ -358,18 +358,18 @@ public class GameSurface extends View {
 
             // Move Left/Right
             if(x < (float) screenWidth / 2)
-                player.changeDir(- player.getMaxSpeedX());
+                player.changeDir(- Player.MAX_SPEED);
             else
-                player.changeDir(player.getMaxSpeedX());
+                player.changeDir(Player.MAX_SPEED);
             return true;
         }
 
         if(event.getAction() == MotionEvent.ACTION_MOVE && !topLeft.contains(x, y) && !topRight.contains(x, y)) {
             // Move Left/Right
             if(x < (float) screenWidth / 2)
-                player.changeDir(- player.getMaxSpeedX());
+                player.changeDir(- Player.MAX_SPEED);
             else
-                player.changeDir(player.getMaxSpeedX());
+                player.changeDir(Player.MAX_SPEED);
             return true;
         }
 
