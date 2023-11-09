@@ -2,13 +2,19 @@ package de.joergschmid.lavajump;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 public class Utility {
 
@@ -160,5 +166,20 @@ public class Utility {
         Point size = new Point();
         display.getRealSize(size);
         return size;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public static void setBackButtonEventListener(AppCompatActivity activity, int buttonViewId) {
+        final ImageButton backButton = activity.findViewById(buttonViewId);
+        backButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(activity.getResources(), R.drawable.back_btn, null));
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(activity.getResources(), R.drawable.back_btn_pressed, null));
+            }
+            return true;
+        });
     }
 }

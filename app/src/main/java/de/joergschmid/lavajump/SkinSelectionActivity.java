@@ -93,24 +93,8 @@ public class SkinSelectionActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void registerBackButtonListener() {
-        final ImageButton backButton = findViewById(R.id.button_back_activity_skin_selection);
-
-        backButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
-                    Intent intent = new Intent(SkinSelectionActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_btn_pressed));
-                }
-                return true;
-
-            }
-        });
+    public void registerBackButtonListener() {
+        Utility.setBackButtonEventListener(this, R.id.button_back_activity_skin_selection);
     }
 
 

@@ -1,15 +1,11 @@
 package de.joergschmid.lavajump;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 public class HighscoreActivity extends AppCompatActivity {
     @Override
@@ -76,21 +72,7 @@ public class HighscoreActivity extends AppCompatActivity {
         }
     }
 
-
-    @SuppressLint("ClickableViewAccessibility")
     public void registerBackButtonListener() {
-        final ImageButton backButton = findViewById(R.id.button_back_activity_highscore);
-
-        backButton.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_btn, null));
-                Intent intent = new Intent(HighscoreActivity.this, MainActivity.class);
-                startActivity(intent);
-            } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_btn_pressed, null));
-            }
-            return true;
-
-        });
+        Utility.setBackButtonEventListener(this, R.id.button_back_activity_highscore);
     }
 }
