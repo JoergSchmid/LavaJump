@@ -8,13 +8,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 public class HighscoreActivity extends AppCompatActivity {
-
-    private final String LOG_TAG = HighscoreActivity.class.getSimpleName();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,19 +81,16 @@ public class HighscoreActivity extends AppCompatActivity {
     public void registerBackButtonListener() {
         final ImageButton backButton = findViewById(R.id.button_back_activity_highscore);
 
-        backButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_highscore));
-                    Intent intent = new Intent(HighscoreActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_highscore_pressed));
-                }
-                return true;
-
+        backButton.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_highscore, null));
+                Intent intent = new Intent(HighscoreActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                backButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.back_highscore_pressed, null));
             }
+            return true;
+
         });
     }
 }
