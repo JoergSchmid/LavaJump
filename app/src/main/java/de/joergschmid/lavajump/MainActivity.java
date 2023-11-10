@@ -5,10 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.content.res.ResourcesCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,19 +16,13 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
-
     private SharedPreferences sharedPrefs;
 
     private ImageButton startButton;
     private ImageButton highscoreButton;
     private ImageButton quitButton;
     private ImageButton playerSelectionButton;
-    private ImageButton coinButton;
-
     private RelativeLayout playerSelectionView;
-    private ImageButton[] button_skin;
 
 
     @Override
@@ -70,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         );
 
         TextView coins = findViewById(R.id.coins_activity_main);
-        // coins.setText(String.valueOf(sharedPrefs.getInt(getString(R.string.coins_key), 0)));
         coins.setText(String.valueOf(Utility.loadCoins(getApplicationContext()))); // Doesn´t work...
 
         String skin = sharedPrefs.getString(getString(R.string.skin_key), "blue");
@@ -79,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putInt(getString(R.string.last_version_key), BuildConfig.VERSION_CODE);
-        editor.commit();
+        editor.apply();
     }
 
     //Also in onResume() for initial hiding of the navigation bar!
@@ -98,97 +90,81 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
     private void registerStartButtonListener() {
         startButton = findViewById(R.id.button_start_activity_main);
-        final Rect rect = new Rect(startButton.getLeft(), startButton.getTop(), startButton.getRight(), startButton.getBottom());
-        startButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    startButton.setImageDrawable(getDrawable(R.drawable.button_play));
-                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    startButton.setImageDrawable(getDrawable(R.drawable.button_play_pressed));
-                }
-                return true;
+        startButton.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                startButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_play, null));
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                startButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_play_pressed, null));
             }
+            return true;
         });
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void registerHighscoreButtonListener() {
         highscoreButton = findViewById(R.id.button_highscore_activity_main);
-        highscoreButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    highscoreButton.setImageDrawable(getDrawable(R.drawable.button_highscore));
-                    Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
-                    startActivity(intent);
-                } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    highscoreButton.setImageDrawable(getDrawable(R.drawable.button_highscore_pressed));
-                }
-                return true;
+        highscoreButton.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                highscoreButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_highscore, null));
+                Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
+                startActivity(intent);
+            } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                highscoreButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_highscore_pressed, null));
             }
+            return true;
         });
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void registerCloseButtonListener() {
         quitButton = findViewById(R.id.button_close_activity_main);
-        final Rect rect = new Rect(quitButton.getLeft(), quitButton.getTop(), quitButton.getRight(), quitButton.getBottom());
-        quitButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    finish();
-                } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    quitButton.setImageDrawable(getDrawable(R.drawable.button_quit_pressed));
-                } else {
-                    quitButton.setImageDrawable(getDrawable(R.drawable.button_quit));
-                }
-                return true;
+        quitButton.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                finish();
+            } else if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                quitButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_quit_pressed, null));
+            } else {
+                quitButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.button_quit, null));
             }
+            return true;
         });
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void registerPlayerSelectionButtonListener() {
         playerSelectionButton = findViewById(R.id.button_player_selection_activity_main);
-        playerSelectionButton.setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                playerSelectionButton.setClickable(false);
-                playerSelectionView.setVisibility(View.VISIBLE);
-                return true;
-            }
+        playerSelectionButton.setOnLongClickListener(v -> {
+            playerSelectionButton.setClickable(false);
+            playerSelectionView.setVisibility(View.VISIBLE);
+            return true;
         });
-        playerSelectionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String skin = sharedPrefs.getString(getString(R.string.skin_key), "blue");
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                String[] skins = Utility.loadSelectedSkins(getApplicationContext());
-                for(int i = 0; i < 4; i++) { // Maybe control for no matches
-                    if(skin.equals(skins[i])) {
-                        editor.putString(getString(R.string.skin_key), skins[(i+1)%4]);
-                        playerSelectionButton.setImageBitmap(Utility.getBitmap(getApplicationContext(), skins[(i+1)%4]));
-                        break;
-                    } else if(i == 3) {
-                        editor.putString(getString(R.string.skin_key), skins[0]);
-                        playerSelectionButton.setImageBitmap(Utility.getBitmap(getApplicationContext(), skins[0]));
-                    }
+        playerSelectionButton.setOnClickListener(v -> {
+            String skin = sharedPrefs.getString(getString(R.string.skin_key), "blue");
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            String[] skins = Utility.loadSelectedSkins(getApplicationContext());
+            for(int i = 0; i < 4; i++) { // Maybe control for no matches
+                if(skin.equals(skins[i])) {
+                    editor.putString(getString(R.string.skin_key), skins[(i+1)%4]);
+                    playerSelectionButton.setImageBitmap(Utility.getBitmap(getApplicationContext(), skins[(i+1)%4]));
+                    break;
+                } else if(i == 3) {
+                    editor.putString(getString(R.string.skin_key), skins[0]);
+                    playerSelectionButton.setImageBitmap(Utility.getBitmap(getApplicationContext(), skins[0]));
                 }
-                editor.commit();
             }
+            editor.apply();
         });
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void registerPlayerSelectionViewListener() {
-        button_skin = new ImageButton[4];
+        ImageButton[] button_skin = new ImageButton[4];
         button_skin[0] = findViewById(R.id.button_skin_0);
         button_skin[1] = findViewById(R.id.button_skin_1);
         button_skin[2] = findViewById(R.id.button_skin_2);
@@ -204,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onTouch(View v, MotionEvent event) {
                     SharedPreferences.Editor editor = sharedPrefs.edit();
                     editor.putString(getString(R.string.skin_key), skins[n]);
-                    editor.commit();
+                    editor.apply();
                     playerSelectionButton.setImageBitmap(Utility.getBitmap(getApplicationContext(), skins[n]));
                     playerSelectionButton.setClickable(true);
                     playerSelectionView.setVisibility(View.INVISIBLE);
@@ -215,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerCoinButtonListener() {
-        coinButton = findViewById(R.id.button_coins_activity_main);
+        ImageButton coinButton = findViewById(R.id.button_coins_activity_main);
         coinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
