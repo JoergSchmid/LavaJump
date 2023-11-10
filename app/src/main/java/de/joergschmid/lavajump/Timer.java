@@ -1,8 +1,7 @@
 package de.joergschmid.lavajump;
 
 public class Timer {
-
-    private long start;
+    private final long start;
     private long pause;
     private long pauseTime = 0;
     private long lastPauseTime = 0;
