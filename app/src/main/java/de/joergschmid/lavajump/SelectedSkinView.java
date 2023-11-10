@@ -1,6 +1,5 @@
 package de.joergschmid.lavajump;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,13 +8,8 @@ import android.view.View;
 
 public class SelectedSkinView extends View {
 
-    private final String LOG_TAG = SkinSelectionActivity.class.getSimpleName();
-
     private Bitmap skinBitmap;
-
-    private int xPos;
-    private int yPos;
-    private int radius;
+    private Rect rect;
 
     public SelectedSkinView(Context context) {
         super(context);
@@ -31,17 +25,15 @@ public class SelectedSkinView extends View {
     }
 
     public void setPosition(float x, float y) {
-        xPos = (int) x;
-        yPos = (int) y;
-        radius = (int) (skinBitmap.getWidth() * 0.8);
+        int radius = (int) (skinBitmap.getWidth() * 0.8);
+        rect = new Rect((int) x - radius, (int) y - radius, (int) x + radius, (int) y + radius);
         invalidate();
     }
 
-    @SuppressLint("DrawAllocation")
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(skinBitmap, null, new Rect((int) xPos - radius, yPos - radius, xPos + radius, yPos + radius), null);
+        canvas.drawBitmap(skinBitmap, null, rect, null);
     }
 
 }

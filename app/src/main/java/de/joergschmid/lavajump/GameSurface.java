@@ -12,52 +12,53 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.joergschmid.lavajump.GameObjects.Coin;
+import de.joergschmid.lavajump.GameObjects.Flag;
+import de.joergschmid.lavajump.GameObjects.Lava;
+import de.joergschmid.lavajump.GameObjects.Player;
+
 
 public class GameSurface extends View {
-
-    private final String LOG_TAG = GameSurface.class.getSimpleName();
-
-    private final int STATUS_GAME_STARTED = 1;
-    private final int STATUS_GAME_PAUSED = 2;
-    private final int STATUS_GAME_OVER = 3;
-    private final int STATUS_GAME_DESTROYED = 4;
-    private int status = STATUS_GAME_DESTROYED;
+    private enum GameStatus {
+        RUNNING,
+        PAUSED,
+        FINISHED,
+        DESTROYED
+    }
+    private GameStatus status = GameStatus.DESTROYED;
 
     private Player player;
     public List<Lava> lava = new ArrayList<>();
-    private List<Coin> coins = new ArrayList<>();
-    private List<Flag> flags = new ArrayList<>();
-    private final int LAVA_NUMBER = 20;
-    private final int COIN_NUMBER = 10;
+    private final List<Coin> coins = new ArrayList<>();
+    private final List<Flag> flags = new ArrayList<>();
     private int finalScore;
     private int[] highScores;
     private int ranking;
     private int coinsCollected;
     private String skin;
 
-    private Bitmap backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_game);
-    private Bitmap groundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ground);
-    private Bitmap lavaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lava);
-    private Bitmap pauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
-    private Bitmap pausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_pressed);
-    private Bitmap unpauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause);
-    private Bitmap unpausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause_pressed);
-    private Bitmap restartBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
-    private Bitmap restartPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart_pressed);
-    private Bitmap backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back);
-    private Bitmap backPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back_pressed);
-    private Bitmap flagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
-    private Bitmap flagFirstBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_first);
-    private Bitmap flagSecondBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_second);
-    private Bitmap flagThirdBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_third);
-    private Bitmap coinOneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.coin_one);
+    private final Bitmap backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_game);
+    private final Bitmap groundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ground);
+    private final Bitmap lavaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lava);
+    private final Bitmap pauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+    private final Bitmap pausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_pressed);
+    private final Bitmap unpauseBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause);
+    private final Bitmap unpausePressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unpause_pressed);
+    private final Bitmap restartBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
+    private final Bitmap restartPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.restart_pressed);
+    private final Bitmap backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back);
+    private final Bitmap backPressedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back_pressed);
+    private final Bitmap flagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
+    private final Bitmap flagFirstBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_first);
+    private final Bitmap flagSecondBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_second);
+    private final Bitmap flagThirdBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flag_third);
+    private final Bitmap coinOneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.coin_one);
 
     private boolean pausePressed = false;
     private boolean restartPressed = false;
@@ -67,8 +68,8 @@ public class GameSurface extends View {
     private Rect topLeft = new Rect();
     private Rect topRight = new Rect();
 
-    private Paint scorePaint = new Paint();
-    private Paint go_scorePaint = new Paint();
+    private final Paint scorePaint = new Paint();
+    private final Paint go_scorePaint = new Paint();
 
     private static int screenOffset; // Stores how much the screen has to be adjusted so the Player doesn´t go offScreen
     private static int ground;
@@ -76,7 +77,7 @@ public class GameSurface extends View {
     private static int screenWidth;
     private static int screenHeight;
 
-    private double scalingFactor; // Scaling value for the display, used for different display sizes and different player jump heights
+    private final double scalingFactor; // Scaling value for the display, used for different display sizes and different player jump heights
     private static int yOffset; // Stores how much objects need to be shifted down due to the scaling of the screen
 
 
@@ -91,7 +92,6 @@ public class GameSurface extends View {
 
         scalingFactor = screenHeight / (GROUND_HEIGHT + 1.6 * Player.MAX_HEIGHT);
         yOffset = (int) (ground - scalingFactor * ground);
-        Log.v(LOG_TAG, "scalingFactor=" + scalingFactor);
 
         definePaints();
         defineRects();
@@ -153,12 +153,12 @@ public class GameSurface extends View {
         generateCoins();
 
         skin = Utility.loadSelectedSkin(getContext());
-        player = new Player(this, Utility.getBitmap(getContext(), skin));
+        player = new Player(this, Utility.getBitmap(getContext(), skin), 0, GameSurface.getGround());
 
         lava.clear();
         generateLava();
 
-        status = STATUS_GAME_STARTED;
+        status = GameStatus.RUNNING;
     }
 
 
@@ -172,14 +172,19 @@ public class GameSurface extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if(status == STATUS_GAME_STARTED) {
-            drawGameStarted(canvas);
-        } else if(status == STATUS_GAME_PAUSED) {
-            drawGamePaused(canvas);
-        } else if(status == STATUS_GAME_OVER) {
-            drawGameOver(canvas);
-        } else if(status == STATUS_GAME_DESTROYED) {
-            backToMainActivity();
+        switch (status) {
+            case RUNNING:
+                drawGameStarted(canvas);
+                break;
+            case PAUSED:
+                drawGamePaused(canvas);
+                break;
+            case FINISHED:
+                drawGameOver(canvas);
+                break;
+            case DESTROYED:
+            default:
+                backToMainActivity();
         }
     }
 
@@ -196,7 +201,7 @@ public class GameSurface extends View {
         player.draw(canvas, screenOffset, yOffset, scalingFactor);
 
         if(!player.update()) {
-            status = STATUS_GAME_OVER;
+            status = GameStatus.FINISHED;
             finalScore = player.getScore();
 
             checkHighscore();
@@ -252,59 +257,47 @@ public class GameSurface extends View {
             l.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
 
-        // Capture the flag
-        /*if(ranking < highScores.length && highScores[ranking] != 0 && status != STATUS_GAME_OVER && status != STATUS_GAME_PAUSED) {
-            flags.get(ranking).setPosition((player.getLeft()), player.getCenter().y);
-        }*/
-
         for(Flag f : flags) {
             f.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
 
         for(Coin c : coins) {
             // Check, if a coin got captured
-            if(c.getRect().contains(player.getCenter().x, player.getCenter().y)) {
+            if(c.getRect().contains(player.getGlobalCenterX(), player.getGlobalCenterY())) {
                 coinsCollected++;
-                c.move(-screenWidth, 0); // This deletes the coin
+                c.moveBy(-screenWidth, 0); // This deletes the coin
             }
             c.draw(canvas, screenOffset, yOffset, scalingFactor);
         }
     }
 
-
-    // Generate the first set of lava
     private void generateLava() {
         lava.add(new Lava(lavaBitmap, randomIntBetween(200, 500), randomIntBetween(80, 150)));
+        int LAVA_NUMBER = 20;
         for(int i = 1; i < LAVA_NUMBER; i++) {
             addLava();
         }
     }
 
-    // Add 1 lava to the list
     private void addLava() {
         lava.add(new Lava(lavaBitmap,lava.get(lava.size()-1).getRight() + randomIntBetween(30, 300), randomIntBetween(80, 150)));
     }
 
-    // Generate the first set of coins
     private void generateCoins() {
         coins.add(new Coin(coinOneBitmap, randomIntBetween(500, 2000), ground - randomIntBetween(50, 450)));
+        int COIN_NUMBER = 10;
         for (int i = 1; i < COIN_NUMBER; i++)
             addCoin();
     }
 
-    // Add 1 coin to the list
     private void addCoin() {
         coins.add(new Coin(coinOneBitmap, coins.get(coins.size()-1).getRight() + randomIntBetween(500, 2000), ground - randomIntBetween(50, 450)));
     }
 
 
     private void checkRanking() {
-        if(ranking != 0 && player.getScore() > highScores[ranking-1]) {
-            if(ranking != highScores.length && highScores[ranking] != 0) { // Set last Flag to ground again
-                //flags.get(ranking).setPosition(highScores[ranking-1], ground); // Uncomment for changing flag color with better ranking - for cature the flag
-            }
+        if(ranking != 0 && player.getScore() > highScores[ranking-1])
             ranking--;
-        }
     }
 
 
@@ -325,16 +318,16 @@ public class GameSurface extends View {
 
             // Un/Pause
             if(topRight.contains(x, y)) {
-                if(pausePressed && status == STATUS_GAME_STARTED)
+                if(pausePressed && status == GameStatus.RUNNING)
                     pause();
-                else if(pausePressed && status == STATUS_GAME_PAUSED)
+                else if(pausePressed && status == GameStatus.PAUSED)
                     resume();
-                else if(restartPressed && status == STATUS_GAME_OVER)
+                else if(restartPressed && status == GameStatus.FINISHED)
                     restart();
             }
 
             // Back to MainActivity
-            if(topLeft.contains(x, y) && backPressed && (status == STATUS_GAME_PAUSED || status == STATUS_GAME_OVER)) {
+            if(topLeft.contains(x, y) && backPressed && (status == GameStatus.PAUSED || status == GameStatus.FINISHED)) {
                 backToMainActivity();
                 return true;
             }
@@ -349,34 +342,34 @@ public class GameSurface extends View {
 
             // Un/Pause
             if(topRight.contains(x, y)) {
-                if(status == STATUS_GAME_STARTED)
+                if(status == GameStatus.RUNNING)
                     pausePressed = true;
-                else if(status == STATUS_GAME_PAUSED)
+                else if(status == GameStatus.PAUSED)
                     pausePressed = true;
-                else if(status == STATUS_GAME_OVER)
+                else if(status == GameStatus.FINISHED)
                     restartPressed = true;
                 return true;
             }
 
-            if(topLeft.contains(x, y) && (status == STATUS_GAME_PAUSED || status == STATUS_GAME_OVER)) {
+            if(topLeft.contains(x, y) && (status == GameStatus.PAUSED || status == GameStatus.FINISHED)) {
                 backPressed = true;
                 return true;
             }
 
             // Move Left/Right
             if(x < (float) screenWidth / 2)
-                player.changeDir(- player.getMaxSpeedX());
+                player.changeDir(- Player.MAX_SPEED);
             else
-                player.changeDir(player.getMaxSpeedX());
+                player.changeDir(Player.MAX_SPEED);
             return true;
         }
 
         if(event.getAction() == MotionEvent.ACTION_MOVE && !topLeft.contains(x, y) && !topRight.contains(x, y)) {
             // Move Left/Right
             if(x < (float) screenWidth / 2)
-                player.changeDir(- player.getMaxSpeedX());
+                player.changeDir(- Player.MAX_SPEED);
             else
-                player.changeDir(player.getMaxSpeedX());
+                player.changeDir(Player.MAX_SPEED);
             return true;
         }
 
@@ -418,12 +411,12 @@ public class GameSurface extends View {
     }
 
     public void pause() {
-        status = STATUS_GAME_PAUSED;
+        status = GameStatus.PAUSED;
         player.pausePlayTime();
     }
 
     public void resume() {
-        status = STATUS_GAME_STARTED;
+        status = GameStatus.RUNNING;
         player.resumePlayTime();
     }
 }

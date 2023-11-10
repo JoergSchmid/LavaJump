@@ -1,35 +1,28 @@
-package de.joergschmid.lavajump;
+package de.joergschmid.lavajump.GameObjects;
 
 import android.graphics.Bitmap;
+import de.joergschmid.lavajump.GameSurface;
+import de.joergschmid.lavajump.Timer;
 
 public class Player extends GameObject {
-
-    private final String LOG_TAG = Player.class.getSimpleName();
-
-    private GameSurface gameSurface;
-    private Timer timer;
-
-    private double speedX = 0.0f;
+    public static final double GRAVITY = 0.0035f;
     public static final int MAX_HEIGHT = 500;
-    private double dTime;
-    private final double GRAVITY = 0.0035f;
-    private final double MAX_SPEED = 0.5f;
+    public static final double MAX_SPEED = 0.5f;
+    private final GameSurface gameSurface;
+    private final Timer timer;
+    private double speedX = 0.0f;
     private boolean aboveGround;
     private int score = 0;
-    private int distanceToGround; // Like bottom, but can be negative
-
-    private int radius;
-    private int sideCheck; // Distance from bottom center of the ball to left and right, where lava is checked
+    private int distanceToGround;
+    private final int collisionMargin;
 
 
-
-    public Player(GameSurface surface, Bitmap bitmap) {
-        super(bitmap, 0, GameSurface.getGround() - MAX_HEIGHT);
+    public Player(GameSurface surface, Bitmap bitmap, int left, int bottom) {
+        super(bitmap, left, bottom, bitmap.getWidth(), bitmap.getHeight());
 
         gameSurface = surface;
 
-        radius = image.getWidth() / 2;
-        sideCheck = radius / 5;
+        collisionMargin = image.getWidth() / 4;
         timer = new Timer();
     }
 
@@ -37,10 +30,9 @@ public class Player extends GameObject {
     private boolean isInLava() {
         if ((distanceToGround < 0 && aboveGround) || (distanceToGround > 0 && !aboveGround)) {
             for(Lava lava : gameSurface.lava) {
-                if((lava.getLeft() <= center.x - sideCheck && lava.getRight() >= center.x - sideCheck) &&
-                        (lava.getLeft() <= center.x + sideCheck && lava.getRight() >= center.x + sideCheck)) {
+                if (lava.getRect().left < this.getLeft() + collisionMargin
+                        && lava.getRect().right > this.getRight() - collisionMargin)
                     return true;
-                }
             }
         }
         return false;
@@ -48,29 +40,29 @@ public class Player extends GameObject {
 
     public boolean update()  {
 
-        dTime = (double) timer.getMarkerTimeElapsed();
+        double dTime = (double) timer.getMarkerTimeElapsed();
         timer.setMarker();
 
         // For the lava you need to check if there is a change from above to below ground or vice versa, because distanceToGround is a sin wave
         aboveGround = distanceToGround > 0;
 
-        setLeft((int) (left + speedX * dTime));
+        left = (int) (left + speedX * dTime);
         distanceToGround = (int) (Math.sin(GRAVITY * timer.getPlayTime()) * MAX_HEIGHT);
 
         if(isInLava()) {
-            setBottom(GameSurface.getGround() + Math.abs(distanceToGround));
+            bottom = GameSurface.getGround() + Math.abs(distanceToGround);
             return false;
         }
 
         // Recalculate the y-position on screen
-        setBottom(GameSurface.getGround() - Math.abs(distanceToGround));
+        bottom = GameSurface.getGround() - Math.abs(distanceToGround);
 
         // Recalculate the screenOffset
-        gameSurface.setScreenOffset(right);
+        gameSurface.setScreenOffset(getRight());
 
         // Reflect from left side of the screen
         if(left <= gameSurface.getScreenOffset()) {
-            setLeft(2*gameSurface.getScreenOffset() - left);
+            left = 2*gameSurface.getScreenOffset() - left;
             speedX = - speedX;
         }
 
@@ -94,15 +86,7 @@ public class Player extends GameObject {
         speedX = speed;
     }
 
-    public double getMaxSpeedX() {
-        return MAX_SPEED;
-    }
-
     public int getScore() {
         return score;
-    }
-
-    public int getRadius() {
-        return radius;
     }
 }

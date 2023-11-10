@@ -3,18 +3,13 @@ package de.joergschmid.lavajump;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import android.util.Log;
 
 
 public class GameActivity extends AppCompatActivity {
-
-    private final String LOG_TAG = GameActivity.class.getSimpleName();
-
     private GameSurface gameSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(GameActivity.class.getSimpleName(), "onCreate() called");
         super.onCreate(savedInstanceState);
 
         gameSurface = new GameSurface(this.getApplicationContext());
@@ -23,7 +18,6 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.v(LOG_TAG, "onResume() called");
         super.onResume();
 
         View view = getWindow().getDecorView();
@@ -40,15 +34,12 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.v(GameActivity.class.getSimpleName(), "onPause() called");
         super.onPause();
-
         gameSurface.pause();
     }
 
     @Override
     protected void onStop() {
-        Log.v(GameActivity.class.getSimpleName(), "onStop() called");
         super.onStop();
         Thread.currentThread().interrupt();
         this.finish();
